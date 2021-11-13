@@ -1,6 +1,11 @@
 {
-    "java.project.referencedLibraries": [
-        "lib/**/*.jar",
-        "core.jar"
-    ]
+    "java.project.referencedLibraries": {
+        "include": [
+            "lib/**/*.jar",
+            "core.jar"
+        ],
+        "exclude": [
+            "c:\\Users\\clash\\OneDrive\\Desktop\\core.jar"
+        ]
+    }
 }
