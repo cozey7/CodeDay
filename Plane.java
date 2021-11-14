@@ -45,7 +45,7 @@ public class Plane extends MovingImage{
             moveToLocation(g.width - width, y);
         for (Rectangle2D.Double image : images)
             if(collide(image) && image instanceof Powerup){
-                temp.remove(image);
+                image.setRect(-500, -500, 20, 20);
             }
         return temp;
     }
