@@ -1,3 +1,4 @@
+import java.awt.geom.Rectangle2D;
 import processing.core.PApplet;
 import processing.core.PImage;
 
@@ -21,7 +22,15 @@ public class Plane extends MovingImage{
             moveToLocation(g.displayWidth, y);
 
     }
-    public boolean collide(MovingImage image) {
+    public boolean collide(Rectangle2D.Double image) {
+        if (this.intersects(image)) {
+            if (image instanceof Plane) {
+                if (y > image.getY() + image.getHeight() * 2.0/3)
+                    return true;
+                // else swap directions
+            }
+            return image instanceof Ground;
+        }
         return false;
     }
     public void setVx(double xVel) {
