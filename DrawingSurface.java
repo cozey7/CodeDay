@@ -33,10 +33,10 @@ public class DrawingSurface extends PApplet {
         objects.add(redPlane);
         objects.add(ground);
         objects.add(sky);
-        pu1 = new Powerup(powerupImg, 30, 200, 30, 55);
-        //pu2 = new Powerup(powerupImg, -50, -50, 20, 20);
+        pu1 = new Powerup(powerupImg, 30, 200, 20, 20);
+        pu2 = new Powerup(powerupImg, -50, -50, 20, 20);
         objects.add(pu1);
-        //objects.add(pu2);
+        objects.add(pu2);
         blueShots = 0;
         redShots = 0;
         scoreRed = 0;
@@ -105,24 +105,28 @@ public class DrawingSurface extends PApplet {
                 objects.add(sky);
                 pu1 = spawnPowerup();
                 objects.add(pu1);
+                pu2 = new Powerup(powerupImg, -50, -50, 20, 20);
+                objects.add(pu2);
                 victoryTimer = 0;
+                spawnTimer = 0;
             }
         }
         textSize(100);
         textAlign(CENTER);
         text(scoreBlue + "         " + scoreRed, 400, 500);
 
-        // if(spawnTimer > 1000){
-        //     if(pu1.getX() < 0){
-        //         pu1 = spawnPowerup();
-        //         pu1.draw(this);
-        //     } else if(pu2.getX() < 0){
-        //         pu2 = spawnPowerup();
-        //         objects.add(pu2);
-        //         pu2.draw(this);
-        //     } else 
-        //         spawnTimer = 0;
-        // }
+        if(spawnTimer > 300){
+            if(pu2.x < 0){
+                pu2 = spawnPowerup();
+                objects.add(pu2);
+            } else if(pu1.x < 0){
+                pu1 = spawnPowerup();
+                objects.add(pu1);
+            }
+            System.out.println(pu1.x + ", " + pu1.y);
+            System.out.println(pu2.x + ", " + pu2.y);
+            spawnTimer = 0;
+        }
         spawnTimer++;
     }
     public void settings() {
