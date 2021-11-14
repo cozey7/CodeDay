@@ -4,8 +4,9 @@ import processing.core.PImage;
 
 public class Plane extends MovingImage{
 
-    private final double GRAVITY = 0.098;
+    private final double GRAVITY = 0.2;
     private double xVel, yVel;
+    private boolean flying;
 
     public Plane(PImage img, double x, double y, double width, double height) {
         super(img, x, y, width, height);
@@ -14,13 +15,15 @@ public class Plane extends MovingImage{
     }
 
     private void act(PApplet g){
-        yVel += GRAVITY;
+        if (flying && yVel >= -4)
+            yVel -= 1;
+        else
+            yVel += GRAVITY;
         moveByAmount(xVel, yVel);
-        if (x > g.displayWidth)
+        if (x > g.width)
             moveToLocation(-width, y);
-        else if (x - width < 0)
-            moveToLocation(g.displayWidth, y);
-
+        else if (x + width < 0)
+            moveToLocation(g.width, y);
     }
     public boolean collide(Rectangle2D.Double image) {
         if (this.intersects(image)) {
@@ -32,6 +35,9 @@ public class Plane extends MovingImage{
             return image instanceof Ground;
         }
         return false;
+    }
+    public void setFlying(boolean flying) {
+        this.flying = flying;
     }
     public void setVx(double xVel) {
         this.xVel = xVel;
