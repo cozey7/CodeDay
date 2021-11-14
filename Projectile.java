@@ -3,7 +3,7 @@ import processing.core.PApplet;
 
 public class Projectile extends MovingImage{
 
-    private double xVel, yVel, speed;
+    private double xVel, yVel, speed, xVelBefore, yVelBefore;
     private final double GRAVITY = 0.2;
     private Plane owner;
 
@@ -16,6 +16,8 @@ public class Projectile extends MovingImage{
     }
     
     public void act(PApplet g){
+        xVelBefore = xVel;
+        yVelBefore = yVel;
         yVel += GRAVITY;
         moveByAmount(xVel, yVel);
         if (x + width > g.width)
@@ -30,6 +32,14 @@ public class Projectile extends MovingImage{
     }
     public void setSpeed(double v){
         this.speed = v;
+    }
+    public void draw(PApplet g) {
+        float angle = (float)Math.atan2(yVel, xVel) - (float)Math.atan2(yVelBefore, xVelBefore);
+        g.pushStyle();
+        g.imageMode(g.CENTER);
+        rotate(angle);
+        super.draw(g);
+        g.popStyle();
     }
 
 }

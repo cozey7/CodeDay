@@ -112,7 +112,10 @@ public class Plane extends MovingImage{
         g.pushStyle();
         g.imageMode(g.CENTER);
         rotate(angle);
+        g.pushMatrix();
+        g.translate((float)width/2, (float)height/2);
         super.draw(g);
+        g.popMatrix();
         g.popStyle();
     }
 }

@@ -6,7 +6,7 @@ import processing.core.PImage;
 
 public class DrawingSurface extends PApplet {
 
-    private PImage redPlaneImg, bluePlaneImg, groundImg, powerupImg, bulletLeftImg;
+    private PImage redPlaneImg, bluePlaneImg, groundImg, powerupImg, bulletImg;
     private Plane bluePlane, redPlane;
     private ArrayList<Rectangle2D.Double> objects;
     private Powerup pu1;
@@ -19,7 +19,7 @@ public class DrawingSurface extends PApplet {
         redPlaneImg = loadImage("redPlane.png");
         groundImg = loadImage("ground.png");
         powerupImg = loadImage("powerup.png");
-        bulletLeftImg = loadImage("bulletL.png");
+        bulletImg = loadImage("bullet.png");
         bluePlane = new Plane(bluePlaneImg, 100, 100, 50, 50);
         bluePlane.setVx(2);
         redPlane = new Plane(redPlaneImg, 600, 100, 50, 50);
@@ -57,7 +57,7 @@ public class DrawingSurface extends PApplet {
         if(bluePlane.isFiring()) {
             blueShots++;
             if (blueShots % 20 == 0)
-                objects.add(bluePlane.shoot(bulletLeftImg));
+                objects.add(bluePlane.shoot(bulletImg));
             if (blueShots == 60)
                 bluePlane.setFiring(false);
         }
@@ -65,7 +65,7 @@ public class DrawingSurface extends PApplet {
         if(redPlane.isFiring()) {
             redShots++;
             if (redShots % 20 == 0)
-                objects.add(redPlane.shoot(bulletLeftImg));
+                objects.add(redPlane.shoot(bulletImg));
             if (redShots == 60)
                 redPlane.setFiring(false);
         }
