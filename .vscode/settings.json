@@ -1,0 +1,12 @@
+{
+    "java.project.referencedLibraries": {
+        "include": [
+            "lib/**/*.jar",
+            "core.jar",
+            "c:\\Users\\clash\\OneDrive\\Desktop\\core-windows-32.jar"
+        ],
+        "exclude": [
+            "c:\\Users\\clash\\OneDrive\\Desktop\\core.jar"
+        ]
+    }
+}
