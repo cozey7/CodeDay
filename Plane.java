@@ -6,7 +6,7 @@ public class Plane extends MovingImage{
 
     private final double GRAVITY = 0.2;
     private double xVel, yVel;
-    private boolean flying, crashing, dead;
+    private boolean flying, crashing, dead, won;
 
     public Plane(PImage img, double x, double y, double width, double height) {
         super(img, x, y, width, height);
@@ -16,10 +16,15 @@ public class Plane extends MovingImage{
     }
 
     private void act(PApplet g) {
-        if (flying && yVel >= -4)
-            yVel -= 1;
-        else
-            yVel += GRAVITY;
+        if (won) {
+            yVel = 0;
+        }
+        else {
+            if (flying && yVel >= -4)
+                yVel -= 1;
+            else
+                yVel += GRAVITY;
+        }
         if (!dead)
             moveByAmount(xVel, yVel);
         if (x + width > g.width)
@@ -34,9 +39,10 @@ public class Plane extends MovingImage{
     }
     public boolean collide(Rectangle2D.Double image) {
         Rectangle2D.Double hitbox = new Rectangle2D.Double(x, y, width + xVel, height + yVel);
-        if (hitbox.intersects(image)) {
-            if (image instanceof Plane) {
-                if (!((Plane)image).isDead()) {
+        if (image instanceof Plane) {
+            if (!((Plane)image).isDead()) {
+                if (hitbox.intersects(image)) {
+
                     if (y > image.getY() + image.getHeight() * 2.0/3) {
                         crash();
                         return true;
@@ -47,14 +53,17 @@ public class Plane extends MovingImage{
                         xVel = -xVel;
                 }
             }
-            else if (image instanceof Ground) {
-                crash();
-                dead = true;
-                return true;
-            }
-            else if (image instanceof Sky)
-                crash();
+            else 
+                won = true;
+            
         }
+        else if (image instanceof Ground && hitbox.intersects(image)) {
+            crash();
+            dead = true;
+            return true;
+        }
+        else if (image instanceof Sky && hitbox.intersects(image))
+            crash();
         return false;
     }
     public void setFlying(boolean flying) {

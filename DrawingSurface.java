@@ -7,6 +7,7 @@ public class DrawingSurface extends PApplet {
     private Plane bluePlane, redPlane;
     private Ground ground;
     private Sky sky;
+    private int victoryTimer;
 
     public void setup(){
         planeImg = loadImage("plane.png");
@@ -33,6 +34,7 @@ public class DrawingSurface extends PApplet {
         redPlane.collide(ground);
         bluePlane.collide(sky);
         redPlane.collide(sky);
+        
     }
     public void settings() {
         size(800, 600);
