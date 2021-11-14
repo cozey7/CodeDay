@@ -32,7 +32,7 @@ public class DrawingSurface extends PApplet {
         objects.add(redPlane);
         objects.add(ground);
         objects.add(sky);
-        pu1 = new Powerup(powerupImg, 100, 200, 20, 20);
+        pu1 = new Powerup(powerupImg, 100, 200, 30, 30);
         objects.add(pu1);
         blueShots = 0;
         redShots = 0;

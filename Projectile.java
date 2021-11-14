@@ -28,17 +28,16 @@ public class Projectile extends MovingImage{
         else if (x < 0)
             moveToLocation(g.width - width, y);
         for (Rectangle2D.Double object : objects) {
-            if (collide(object) && object != owner && object != this) {
+            if (collide(object) && object != owner && !(object instanceof Projectile) && !(object instanceof Powerup)) {
                 if (object instanceof Plane)
                     ((Plane) object).crash();
                 temp.remove(this);
-                break;
             }
         }
         return temp;
     }   
     private boolean collide(Rectangle2D.Double image) {
-        return this.intersects(image) && !(image instanceof Powerup && image instanceof Projectile);
+        return this.intersects(image);
     }
 
     public void setAngle(double angle) {
@@ -53,7 +52,10 @@ public class Projectile extends MovingImage{
         g.pushStyle();
         g.imageMode(g.CENTER);
         rotate(angle);
+        g.pushMatrix();
+        g.translate((float)width/2, (float)height/2);
         super.draw(g);
+        g.popMatrix();
         g.popStyle();
     }
 
