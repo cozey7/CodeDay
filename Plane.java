@@ -35,15 +35,16 @@ public class Plane extends MovingImage{
             moveToLocation(g.width - width, y);
     }
     private void crash() {
-        yVel = -yVel;
+        yVel = Math.abs(yVel);
         crashing = true;
         flying = false;
     }
     public boolean collide(Rectangle2D.Double image) {
         Rectangle2D.Double hitbox = new Rectangle2D.Double(x, y, width + xVel, height + yVel);
         if (image instanceof Plane) {
-            if (!((Plane)image).isDead()) {
-                if (hitbox.intersects(image)) {
+            Plane plane = (Plane) image;
+            if (!plane.isDead()) {
+                if (hitbox.intersects(image) && !(plane.isCrashing() || this.crashing)) {
 
                     if (y > image.getY() + image.getHeight() * 2.0/3) {
                         crash();
@@ -55,7 +56,7 @@ public class Plane extends MovingImage{
                         xVel = -xVel;
                 }
             }
-            else 
+            else if (!this.isCrashing())
                 won = true;
             
         }

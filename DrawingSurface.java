@@ -11,7 +11,7 @@ public class DrawingSurface extends PApplet {
     private Powerup pu1;
     private Ground ground;
     private Sky sky;
-    private int victoryTimer;
+    private int victoryTimer, scoreRed, scoreBlue;
 
     public void setup(){
         planeImg = loadImage("plane.png");
@@ -26,7 +26,8 @@ public class DrawingSurface extends PApplet {
         powerups = new ArrayList<Powerup>();
         pu1 = new Powerup(powerupImg, 100, 200, 20, 20);
         powerups.add(pu1);
-
+        scoreRed = 0;
+        scoreBlue = 0;
     }
     public DrawingSurface(){
         
@@ -52,6 +53,23 @@ public class DrawingSurface extends PApplet {
             System.out.println("blue firing");
         if(redPlane.isFiring())
             System.out.println("red firing");
+        if (bluePlane.isDead() || redPlane.isDead()) {
+            victoryTimer++;
+            if (victoryTimer >= 120) {
+                if (bluePlane.isDead())
+                    scoreRed++;
+                if (redPlane.isDead())
+                    scoreBlue++;
+                bluePlane = new Plane(planeImg, 100, 100, 50, 50);
+                bluePlane.setVx(2);
+                redPlane = new Plane(planeImg, 600, 100, 50, 50);
+                redPlane.setVx(-2);
+                victoryTimer = 0;
+            }
+        }
+        textSize(100);
+        textAlign(CENTER);
+        text(scoreBlue + "         " + scoreRed, 400, 500);
     }
     public void settings() {
         size(800, 600);
