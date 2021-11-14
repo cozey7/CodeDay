@@ -4,7 +4,7 @@ import processing.core.PImage;
 
 public class Plane extends MovingImage{
 
-    private final double GRAVITY = 0.98;
+    private final double GRAVITY = 0.098;
     private double xVel, yVel;
 
     public Plane(PImage img, double x, double y, double width, double height) {

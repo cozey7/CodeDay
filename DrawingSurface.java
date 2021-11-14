@@ -6,21 +6,18 @@ public class DrawingSurface extends PApplet {
     PImage plane;
     private Plane bluePlane;
 
+    public void setup(){
+        plane = loadImage("plane.png");
+        bluePlane = new Plane(plane, 100, 100, 50, 50);
+    }
     public DrawingSurface(){
-        bluePlane = new Plane(plane, 10, 10, 50, 50);
+        
     }
 
     public void draw() {
-        // background(0);
-        // fill(255, 0, 0);
-        // circle(200, 200, 500);
-        image(plane, 10, 10, 50, 50);
+        background(130, 199, 255);
+        bluePlane.draw(this);
     }
-    
-    public void setup(){
-        plane = loadImage("plane.png");
-    }
-
     public void settings() {
         size(800, 600);
     }

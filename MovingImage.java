@@ -22,7 +22,7 @@ public class MovingImage extends Rectangle2D.Double{
 	}
 
     public void draw(PApplet g){
-        g.image(image, (int)x, (int)y, (int)width, (int)height);
+        g.image(image, (float)x, (float)y, (float)width, (float)height);
     }
 
 }
