@@ -24,7 +24,8 @@ public class Plane extends MovingImage{
         crashing = false;
     }
 
-    public void act(PApplet g, ArrayList<Rectangle2D.Double> images) {
+    public ArrayList<Rectangle2D.Double> act(PApplet g, ArrayList<Rectangle2D.Double> images) {
+        ArrayList<Rectangle2D.Double> temp = new ArrayList<Rectangle2D.Double>(images);
         xVelBefore = xVel;
         yVelBefore = yVel;
         if (won) {
@@ -44,9 +45,9 @@ public class Plane extends MovingImage{
             moveToLocation(g.width - width, y);
         for (Rectangle2D.Double image : images)
             if(collide(image) && image instanceof Powerup){
-                image.setRect(-500, -500, 20, 20);
+                temp.remove(image);
             }
-            
+        return temp;
     }
     public void crash() {
         yVel = Math.abs(yVel);

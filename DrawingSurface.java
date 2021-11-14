@@ -33,8 +33,8 @@ public class DrawingSurface extends PApplet {
         objects.add(redPlane);
         objects.add(ground);
         objects.add(sky);
-        pu1 = new Powerup(powerupImg, 30, 200, 20, 20);
-        pu2 = new Powerup(powerupImg, -50, -50, 20, 20);
+        pu1 = new Powerup(powerupImg, 30, 200, 30, 55);
+        pu2 = new Powerup(powerupImg, -50, -50, 30, 55);
         objects.add(pu1);
         objects.add(pu2);
         blueShots = 0;
@@ -66,10 +66,6 @@ public class DrawingSurface extends PApplet {
         temp = bluePlane.act(this, temp);
         redPlane.act(this, temp);
         objects = temp;
-        if (!objects.contains(pu1)) {
-            pu1 = spawnPowerup();
-            objects.add(pu1);
-        }
 
         if(bluePlane.isFiring()) {
             blueShots++;
@@ -123,8 +119,6 @@ public class DrawingSurface extends PApplet {
                 pu1 = spawnPowerup();
                 objects.add(pu1);
             }
-            System.out.println(pu1.x + ", " + pu1.y);
-            System.out.println(pu2.x + ", " + pu2.y);
             spawnTimer = 0;
         }
         spawnTimer++;
