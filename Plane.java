@@ -45,6 +45,10 @@ public class Plane extends MovingImage{
             moveToLocation(g.width - width, y);
         for (Rectangle2D.Double image : images)
             collide(image);
+
+        for(Projectile p : bullets){
+            p.act(g);
+        }
     }
     private void crash() {
         yVel = Math.abs(yVel);
@@ -61,12 +65,12 @@ public class Plane extends MovingImage{
     public void fireBullets() {
         if(fired == false) {
             bullets.get(0).moveToLocation(x, y);
+            if(xVel > 0)
+            bullets.get(0).setSpeed(xVel+1);
+            if(xVel < 0)
+            bullets.get(0).setSpeed(xVel-1);
             fired = true;
         }
-        if(xVel > 0)
-            bullets.get(0).setSpeed(xVel+0.5);
-        if(xVel < 0)
-            bullets.get(0).setSpeed(xVel-0.5);
 
     }
 

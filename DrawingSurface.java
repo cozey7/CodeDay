@@ -39,9 +39,8 @@ public class DrawingSurface extends PApplet {
         scoreRed = 0;
         scoreBlue = 0;
         
-        Projectile p = new Projectile(bulletLeftImg, -100, -100, 30, 10, 0);
-        bluePlane.setBullets(p, p, p);
-        redPlane.setBullets(p, p, p);
+        bluePlane.setBullets(new Projectile(bulletLeftImg, -100, -100, 30, 10, 0), new Projectile(bulletLeftImg, -100, -100, 30, 10, 0), new Projectile(bulletLeftImg, -100, -100, 30, 10, 0));
+        redPlane.setBullets(new Projectile(bulletLeftImg, -100, -100, 30, 10, 0), new Projectile(bulletLeftImg, -100, -100, 30, 10, 0), new Projectile(bulletLeftImg, -100, -100, 30, 10, 0));
     }
     public DrawingSurface(){
         
@@ -78,6 +77,8 @@ public class DrawingSurface extends PApplet {
                 objects.add(redPlane);
                 objects.add(ground);
                 objects.add(sky);
+                bluePlane.setBullets(new Projectile(bulletLeftImg, -100, -100, 30, 10, 0), new Projectile(bulletLeftImg, -100, -100, 30, 10, 0), new Projectile(bulletLeftImg, -100, -100, 30, 10, 0));
+                redPlane.setBullets(new Projectile(bulletLeftImg, -100, -100, 30, 10, 0), new Projectile(bulletLeftImg, -100, -100, 30, 10, 0), new Projectile(bulletLeftImg, -100, -100, 30, 10, 0));
                 victoryTimer = 0;
             }
         }
