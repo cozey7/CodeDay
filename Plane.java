@@ -1,4 +1,5 @@
 import java.awt.geom.Rectangle2D;
+import java.util.ArrayList;
 import processing.core.PApplet;
 import processing.core.PImage;
 
@@ -8,6 +9,8 @@ public class Plane extends MovingImage{
     private double xVel, yVel;
     private boolean flying, crashing, dead, won;
     private boolean firing;
+    private boolean fired;
+    private ArrayList<Projectile> bullets;
 
     public Plane(PImage img, double x, double y, double width, double height) {
         super(img, x, y, width, height);
@@ -15,6 +18,8 @@ public class Plane extends MovingImage{
         yVel = 0;
         crashing = false;
         firing = false;
+        bullets = new ArrayList<Projectile>();
+        fired = false;
     }
 
     private void act(PApplet g) {
@@ -33,12 +38,35 @@ public class Plane extends MovingImage{
             moveToLocation(0, y);
         else if (x < 0)
             moveToLocation(g.width - width, y);
+
+        for(Projectile p : bullets){
+            p.act();
+        }
     }
     private void crash() {
         yVel = Math.abs(yVel);
         crashing = true;
         flying = false;
     }
+
+    public void setBullets(Projectile p1, Projectile p2, Projectile p3) {
+        bullets.add(p1);
+        bullets.add(p2);
+        bullets.add(p3);
+    }
+
+    public void fireBullets() {
+        if(fired == false) {
+            bullets.get(0).moveToLocation(x, y);
+            fired = true;
+        }
+        if(xVel > 0)
+            bullets.get(0).setSpeed(xVel+0.5);
+        if(xVel < 0)
+            bullets.get(0).setSpeed(xVel-0.5);
+
+    }
+
     public boolean collide(Rectangle2D.Double image) {
         Rectangle2D.Double hitbox = new Rectangle2D.Double(x, y, width + xVel, height + yVel);
         if (image instanceof Plane) {
@@ -95,5 +123,8 @@ public class Plane extends MovingImage{
     public void draw(PApplet g) {
         act(g);
         super.draw(g);
+        for(Projectile p : bullets){
+            p.draw(g);
+        }
     }
 }

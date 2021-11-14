@@ -1,11 +1,10 @@
 import java.util.ArrayList;
-
 import processing.core.PApplet;
 import processing.core.PImage;
 
 public class DrawingSurface extends PApplet {
 
-    private PImage planeImg, groundImg, powerupImg;
+    private PImage planeImg, groundImg, powerupImg, bulletLeftImg;
     private Plane bluePlane, redPlane;
     private ArrayList<Powerup> powerups;
     private Powerup pu1;
@@ -17,6 +16,7 @@ public class DrawingSurface extends PApplet {
         planeImg = loadImage("plane.png");
         groundImg = loadImage("ground.png");
         powerupImg = loadImage("powerup.png");
+        bulletLeftImg = loadImage("bulletL.png");
         bluePlane = new Plane(planeImg, 100, 100, 50, 50);
         bluePlane.setVx(2);
         redPlane = new Plane(planeImg, 600, 100, 50, 50);
@@ -28,6 +28,10 @@ public class DrawingSurface extends PApplet {
         powerups.add(pu1);
         scoreRed = 0;
         scoreBlue = 0;
+        
+        Projectile p = new Projectile(bulletLeftImg, -100, -100, 30, 10, 0);
+        bluePlane.setBullets(p, p, p);
+        redPlane.setBullets(p, p, p);
     }
     public DrawingSurface(){
         
@@ -49,10 +53,12 @@ public class DrawingSurface extends PApplet {
             bluePlane.collide(p);
             redPlane.collide(p);
         }
-        if(bluePlane.isFiring())
-            System.out.println("blue firing");
-        if(redPlane.isFiring())
-            System.out.println("red firing");
+        if(bluePlane.isFiring()){
+            bluePlane.fireBullets();
+        }
+        if(redPlane.isFiring()){
+            redPlane.fireBullets();
+        }
         if (bluePlane.isDead() || redPlane.isDead()) {
             victoryTimer++;
             if (victoryTimer >= 120) {
@@ -64,6 +70,9 @@ public class DrawingSurface extends PApplet {
                 bluePlane.setVx(2);
                 redPlane = new Plane(planeImg, 600, 100, 50, 50);
                 redPlane.setVx(-2);
+                Projectile p = new Projectile(bulletLeftImg, -100, -100, 30, 10, 0);
+                bluePlane.setBullets(p, p, p);
+                redPlane.setBullets(p, p, p);
                 victoryTimer = 0;
             }
         }
