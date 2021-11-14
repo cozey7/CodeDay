@@ -1,4 +1,5 @@
 import processing.core.PImage;
+import processing.core.PApplet;
 
 public class Projectile extends MovingImage{
 
@@ -9,8 +10,12 @@ public class Projectile extends MovingImage{
         xVel = speed;
     }
     
-    public void act(){
+    public void act(PApplet g){
         moveByAmount(xVel, 0);
+        if (x + width > g.width)
+        moveToLocation(0, y);
+        else if (x < 0)
+        moveToLocation(g.width - width, y);
     }
 
     public void setSpeed(double v){
