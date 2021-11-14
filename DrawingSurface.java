@@ -3,15 +3,20 @@ import processing.core.PImage;
 
 public class DrawingSurface extends PApplet {
 
-    PImage plane;
+    private PImage planeImg, groundImg;
     private Plane bluePlane, redPlane;
+    private Ground ground;
+    private Sky sky;
 
     public void setup(){
-        plane = loadImage("plane.png");
-        bluePlane = new Plane(plane, 100, 100, 50, 50);
+        planeImg = loadImage("plane.png");
+        groundImg = loadImage("ground.png");
+        bluePlane = new Plane(planeImg, 100, 100, 50, 50);
         bluePlane.setVx(2);
-        redPlane = new Plane(plane, 600, 100, 50, 50);
+        redPlane = new Plane(planeImg, 600, 100, 50, 50);
         redPlane.setVx(-2);
+        ground = new Ground(groundImg, 0, 395, 800, 205);
+        sky = new Sky(0, -50, 800, 50);
     }
     public DrawingSurface(){
         
@@ -21,8 +26,13 @@ public class DrawingSurface extends PApplet {
         background(130, 199, 255);
         bluePlane.draw(this);
         redPlane.draw(this);
+        ground.draw(this);
         bluePlane.collide(redPlane);
         redPlane.collide(bluePlane);
+        bluePlane.collide(ground);
+        redPlane.collide(ground);
+        bluePlane.collide(sky);
+        redPlane.collide(sky);
     }
     public void settings() {
         size(800, 600);

@@ -22,30 +22,38 @@ public class Plane extends MovingImage{
             yVel += GRAVITY;
         if (!dead)
             moveByAmount(xVel, yVel);
-        if (x > g.width)
-            moveToLocation(-width, y);
-        else if (x + width < 0)
-            moveToLocation(g.width, y);
+        if (x + width > g.width)
+            moveToLocation(0, y);
+        else if (x < 0)
+            moveToLocation(g.width - width, y);
+    }
+    private void crash() {
+        yVel = -yVel;
+        crashing = true;
+        flying = false;
     }
     public boolean collide(Rectangle2D.Double image) {
-        Rectangle2D.Double hitbox = new Rectangle2D.Double(x + xVel, y + yVel, width, height);
+        Rectangle2D.Double hitbox = new Rectangle2D.Double(x, y, width + xVel, height + yVel);
         if (hitbox.intersects(image)) {
             if (image instanceof Plane) {
-                if (y > image.getY() + image.getHeight() * 2.0/3) {
-                    yVel = -yVel;
-                    crashing = true;
-                    flying = false;
-                    return true;
+                if (!((Plane)image).isDead()) {
+                    if (y > image.getY() + image.getHeight() * 2.0/3) {
+                        crash();
+                        return true;
+                    }
+                    else if (y + image.getHeight() * 2.0/3 < image.getY())
+                        yVel = -yVel;
+                    else
+                        xVel = -xVel;
                 }
-                else if (y + image.getHeight() * 2.0/3 < image.getY())
-                    yVel = -yVel;
-                else
-                    xVel = -xVel;
             }
-            if (image instanceof Ground) {
+            else if (image instanceof Ground) {
+                crash();
                 dead = true;
                 return true;
             }
+            else if (image instanceof Sky)
+                crash();
         }
         return false;
     }
@@ -60,6 +68,9 @@ public class Plane extends MovingImage{
     }
     public boolean isCrashing() {
         return crashing;
+    }
+    public boolean isDead() {
+        return dead;
     }
     public void draw(PApplet g) {
         act(g);
