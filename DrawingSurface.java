@@ -44,13 +44,15 @@ public class DrawingSurface extends PApplet {
 
     public void draw() {
         background(130, 199, 255);
+        ArrayList<Rectangle2D.Double> temp = new ArrayList<Rectangle2D.Double>(objects);
         for (Rectangle2D.Double object : objects) {
             if (object instanceof MovingImage) {
                 ((MovingImage) object).draw(this);
                 if (object instanceof Projectile)
-                    ((Projectile)object).act(this);
+                    temp = ((Projectile)object).act(this, objects);
             }
         }
+        objects = temp;
         bluePlane.act(this, objects);
         redPlane.act(this, objects);
 

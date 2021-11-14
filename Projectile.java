@@ -1,5 +1,7 @@
 import processing.core.PImage;
 import processing.core.PApplet;
+import java.awt.geom.Rectangle2D;
+import java.util.ArrayList;
 
 public class Projectile extends MovingImage{
 
@@ -15,7 +17,8 @@ public class Projectile extends MovingImage{
         yVel = 0;
     }
     
-    public void act(PApplet g){
+    public ArrayList<Rectangle2D.Double> act(PApplet g, ArrayList<Rectangle2D.Double> objects){
+        ArrayList<Rectangle2D.Double> temp = new ArrayList<Rectangle2D.Double>(objects);
         xVelBefore = xVel;
         yVelBefore = yVel;
         yVel += GRAVITY;
@@ -24,7 +27,19 @@ public class Projectile extends MovingImage{
             moveToLocation(0, y);
         else if (x < 0)
             moveToLocation(g.width - width, y);
+        for (Rectangle2D.Double object : objects) {
+            if (collide(object) && object != owner && object != this) {
+                if (object instanceof Plane)
+                    ((Plane) object).crash();
+                temp.remove(this);
+                break;
+            }
+        }
+        return temp;
     }   
+    private boolean collide(Rectangle2D.Double image) {
+        return this.intersects(image) && !(image instanceof Powerup && image instanceof Projectile);
+    }
 
     public void setAngle(double angle) {
         xVel = Math.cos(angle) * speed;
