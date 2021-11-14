@@ -7,12 +7,14 @@ public class Plane extends MovingImage{
     private final double GRAVITY = 0.2;
     private double xVel, yVel;
     private boolean flying, crashing, dead, won;
+    private boolean firing;
 
     public Plane(PImage img, double x, double y, double width, double height) {
         super(img, x, y, width, height);
         xVel = 0;
         yVel = 0;
         crashing = false;
+        firing = false;
     }
 
     private void act(PApplet g) {
@@ -64,6 +66,8 @@ public class Plane extends MovingImage{
         }
         else if (image instanceof Sky && hitbox.intersects(image))
             crash();
+        else if (image instanceof Powerup && hitbox.intersects(image))
+            setFiring(true);
         return false;
     }
     public void setFlying(boolean flying) {
@@ -80,6 +84,12 @@ public class Plane extends MovingImage{
     }
     public boolean isDead() {
         return dead;
+    }
+    public boolean isFiring(){
+        return firing;
+    }
+    public void setFiring(boolean firing){
+        this.firing = firing;
     }
     public void draw(PApplet g) {
         act(g);
