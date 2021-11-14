@@ -100,6 +100,8 @@ public class DrawingSurface extends PApplet {
                 objects.add(sky);
                 pu1 = spawnPowerup();
                 objects.add(pu1);
+                pu2 = new Powerup(powerupImg, -50, -50, 20, 20);
+                objects.add(pu2);
                 victoryTimer = 0;
                 spawnTimer = 0;
             }
@@ -108,11 +110,13 @@ public class DrawingSurface extends PApplet {
         textAlign(CENTER);
         text(scoreBlue + "         " + scoreRed, 400, 500);
 
-        if(spawnTimer > 100){
+        if(spawnTimer > 300){
             if(pu2.x < 0){
                 pu2 = spawnPowerup();
+                objects.add(pu2);
             } else if(pu1.x < 0){
                 pu1 = spawnPowerup();
+                objects.add(pu1);
             }
             System.out.println(pu1.x + ", " + pu1.y);
             System.out.println(pu2.x + ", " + pu2.y);
