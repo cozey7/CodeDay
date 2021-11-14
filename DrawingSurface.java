@@ -8,12 +8,11 @@ public class DrawingSurface extends PApplet {
 
     private PImage redPlaneImg, bluePlaneImg, groundImg, powerupImg, bulletLeftImg;
     private Plane bluePlane, redPlane;
-    private ArrayList<Powerup> powerups;
     private ArrayList<Rectangle2D.Double> objects;
     private Powerup pu1;
     private Ground ground;
     private Sky sky;
-    private int victoryTimer, scoreRed, scoreBlue;
+    private int victoryTimer, scoreRed, scoreBlue, blueShots, redShots;
 
     public void setup(){
         bluePlaneImg = loadImage("bluePlane.png");
@@ -32,15 +31,12 @@ public class DrawingSurface extends PApplet {
         objects.add(redPlane);
         objects.add(ground);
         objects.add(sky);
-        powerups = new ArrayList<Powerup>();
         pu1 = new Powerup(powerupImg, 100, 200, 20, 20);
-        powerups.add(pu1);
-        objects.addAll(powerups);
+        objects.add(pu1);
+        blueShots = 0;
+        redShots = 0;
         scoreRed = 0;
         scoreBlue = 0;
-        
-        bluePlane.setBullets(new Projectile(bulletLeftImg, -100, -100, 30, 10, 0), new Projectile(bulletLeftImg, -100, -100, 30, 10, 0), new Projectile(bulletLeftImg, -100, -100, 30, 10, 0));
-        redPlane.setBullets(new Projectile(bulletLeftImg, -100, -100, 30, 10, 0), new Projectile(bulletLeftImg, -100, -100, 30, 10, 0), new Projectile(bulletLeftImg, -100, -100, 30, 10, 0));
     }
     public DrawingSurface(){
         
@@ -48,18 +44,32 @@ public class DrawingSurface extends PApplet {
 
     public void draw() {
         background(130, 199, 255);
-        bluePlane.draw(this);
+        for (Rectangle2D.Double object : objects) {
+            if (object instanceof MovingImage) {
+                ((MovingImage) object).draw(this);
+                if (object instanceof Projectile)
+                    ((Projectile)object).act(this);
+            }
+        }
         bluePlane.act(this, objects);
-        redPlane.draw(this);
         redPlane.act(this, objects);
-        ground.draw(this);
-        for(Powerup p : powerups)
-            p.draw(this);
 
-        if(bluePlane.isFiring())
-            System.out.println("blue firing");
-        if(redPlane.isFiring())
-            System.out.println("red firing");
+        if(bluePlane.isFiring()) {
+            blueShots++;
+            if (blueShots % 20 == 0)
+                objects.add(bluePlane.shoot(bulletLeftImg));
+            if (blueShots == 60)
+                bluePlane.setFiring(false);
+        }
+        else blueShots = 0;
+        if(redPlane.isFiring()) {
+            redShots++;
+            if (redShots % 20 == 0)
+                objects.add(redPlane.shoot(bulletLeftImg));
+            if (redShots == 60)
+                redPlane.setFiring(false);
+        }
+        else redShots = 0;
         if (bluePlane.isDead() || redPlane.isDead()) {
             victoryTimer++;
             if (victoryTimer >= 120) {
@@ -71,14 +81,11 @@ public class DrawingSurface extends PApplet {
                 bluePlane.setVx(2);
                 redPlane = new Plane(redPlaneImg, 600, 100, 50, 50);
                 redPlane.setVx(-2);
-                Projectile p = new Projectile(bulletLeftImg, -100, -100, 30, 10, 0);
                 objects = new ArrayList<Rectangle2D.Double>();
                 objects.add(bluePlane);
                 objects.add(redPlane);
                 objects.add(ground);
                 objects.add(sky);
-                bluePlane.setBullets(new Projectile(bulletLeftImg, -100, -100, 30, 10, 0), new Projectile(bulletLeftImg, -100, -100, 30, 10, 0), new Projectile(bulletLeftImg, -100, -100, 30, 10, 0));
-                redPlane.setBullets(new Projectile(bulletLeftImg, -100, -100, 30, 10, 0), new Projectile(bulletLeftImg, -100, -100, 30, 10, 0), new Projectile(bulletLeftImg, -100, -100, 30, 10, 0));
                 victoryTimer = 0;
             }
         }

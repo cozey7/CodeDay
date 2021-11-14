@@ -10,8 +10,6 @@ public class Plane extends MovingImage{
     private double xVel, yVel, xVelBefore, yVelBefore;
     private boolean flying, crashing, dead, won;
     private boolean firing;
-    private boolean fired;
-    private ArrayList<Projectile> bullets;
 
     public Plane(PImage img, double x, double y, double width, double height) {
         super(img, x, y, width, height);
@@ -20,9 +18,6 @@ public class Plane extends MovingImage{
         xVelBefore = 0;
         yVelBefore = 0;
         crashing = false;
-        firing = false;
-        bullets = new ArrayList<Projectile>();
-        fired = false;
     }
 
     public void act(PApplet g, ArrayList<Rectangle2D.Double> images) {
@@ -45,33 +40,16 @@ public class Plane extends MovingImage{
             moveToLocation(g.width - width, y);
         for (Rectangle2D.Double image : images)
             collide(image);
-
-        for(Projectile p : bullets){
-            p.act(g);
-        }
     }
     private void crash() {
         yVel = Math.abs(yVel);
         crashing = true;
         flying = false;
     }
-
-    public void setBullets(Projectile p1, Projectile p2, Projectile p3) {
-        bullets.add(p1);
-        bullets.add(p2);
-        bullets.add(p3);
-    }
-
-    public void fireBullets() {
-        if(fired == false) {
-            bullets.get(0).moveToLocation(x, y);
-            if(xVel > 0)
-            bullets.get(0).setSpeed(xVel+1);
-            if(xVel < 0)
-            bullets.get(0).setSpeed(xVel-1);
-            fired = true;
-        }
-
+    public Projectile shoot(PImage image) {
+        Projectile projectile = new Projectile(image, this, x, y, 30, 10, 10);
+        projectile.setAngle(Math.atan2(yVel, xVel));
+        return projectile;
     }
 
     private boolean collide(Rectangle2D.Double image) {
@@ -135,9 +113,6 @@ public class Plane extends MovingImage{
         g.imageMode(g.CENTER);
         rotate(angle);
         super.draw(g);
-        for(Projectile p : bullets){
-            p.draw(g);
-        }
         g.popStyle();
     }
 }

@@ -3,23 +3,33 @@ import processing.core.PApplet;
 
 public class Projectile extends MovingImage{
 
-    private double xVel;
+    private double xVel, yVel, speed;
+    private final double GRAVITY = 0.2;
+    private Plane owner;
 
-    public Projectile(PImage img, double x, double y, double width, double height, double speed) {
+    public Projectile(PImage img, Plane owner, double x, double y, double width, double height, double speed) {
         super(img, x, y, width, height);
-        xVel = speed;
+        this.speed = speed;
+        this.owner = owner;
+        xVel = 0;
+        yVel = 0;
     }
     
     public void act(PApplet g){
-        moveByAmount(xVel, 0);
+        yVel += GRAVITY;
+        moveByAmount(xVel, yVel);
         if (x + width > g.width)
-        moveToLocation(0, y);
+            moveToLocation(0, y);
         else if (x < 0)
-        moveToLocation(g.width - width, y);
-    }
+            moveToLocation(g.width - width, y);
+    }   
 
+    public void setAngle(double angle) {
+        xVel = Math.cos(angle) * speed;
+        yVel = Math.sin(angle) * speed;
+    }
     public void setSpeed(double v){
-        xVel = v;
+        this.speed = v;
     }
 
 }
