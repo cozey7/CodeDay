@@ -6,7 +6,7 @@ import processing.core.PImage;
 
 public class DrawingSurface extends PApplet {
 
-    private PImage redPlaneImg, bluePlaneImg, groundImg, powerupImg, bulletImg;
+    private PImage redPlaneImg, bluePlaneImg, groundImg, powerupImg, bulletImg, explosionImg;
     private Plane bluePlane, redPlane;
     private ArrayList<Rectangle2D.Double> objects;
     private Powerup pu1;
@@ -20,9 +20,10 @@ public class DrawingSurface extends PApplet {
         groundImg = loadImage("ground.png");
         powerupImg = loadImage("powerup.png");
         bulletImg = loadImage("bullet.png");
-        bluePlane = new Plane(bluePlaneImg, 100, 100, 50, 50);
+        explosionImg = loadImage("explosion.png");
+        bluePlane = new Plane(bluePlaneImg, explosionImg, 100, 100, 50, 50);
         bluePlane.setVx(2);
-        redPlane = new Plane(redPlaneImg, 600, 100, 50, 50);
+        redPlane = new Plane(redPlaneImg, explosionImg, 600, 100, 50, 50);
         redPlane.setVx(-2);
         ground = new Ground(groundImg, 0, 395, 800, 205);
         sky = new Sky(0, -50, 800, 50);
@@ -47,6 +48,11 @@ public class DrawingSurface extends PApplet {
         ArrayList<Rectangle2D.Double> temp = new ArrayList<Rectangle2D.Double>(objects);
         for (Rectangle2D.Double object : objects) {
             if (object instanceof MovingImage) {
+                // if (object instanceof Plane) {
+                //     if (((Plane)object).isDead()) {
+                //         continue;
+                //     }
+                // }
                 ((MovingImage) object).draw(this);
                 if (object instanceof Projectile)
                     temp = ((Projectile)object).act(this, objects);
@@ -79,9 +85,9 @@ public class DrawingSurface extends PApplet {
                     scoreRed++;
                 if (redPlane.isDead())
                     scoreBlue++;
-                bluePlane = new Plane(bluePlaneImg, 100, 100, 50, 50);
+                bluePlane = new Plane(bluePlaneImg, explosionImg, 100, 100, 50, 50);
                 bluePlane.setVx(2);
-                redPlane = new Plane(redPlaneImg, 600, 100, 50, 50);
+                redPlane = new Plane(redPlaneImg, explosionImg, 600, 100, 50, 50);
                 redPlane.setVx(-2);
                 objects = new ArrayList<Rectangle2D.Double>();
                 objects.add(bluePlane);

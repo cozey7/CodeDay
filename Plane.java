@@ -10,13 +10,17 @@ public class Plane extends MovingImage{
     private double xVel, yVel, xVelBefore, yVelBefore;
     private boolean flying, crashing, dead, won;
     private boolean firing;
+    private int explosionTimer;
+    private PImage explosion;
 
-    public Plane(PImage img, double x, double y, double width, double height) {
+    public Plane(PImage img, PImage explosion, double x, double y, double width, double height) {
         super(img, x, y, width, height);
+        this.explosion = explosion;
         xVel = 0;
         yVel = 0;
         xVelBefore = 0;
         yVelBefore = 0;
+        explosionTimer = 0;
         crashing = false;
     }
 
@@ -76,6 +80,8 @@ public class Plane extends MovingImage{
             }
             else if (image instanceof Ground && hitbox.intersects(image)) {
                 crash();
+                if (!dead)
+                    explosionTimer = 60;
                 dead = true;
                 return true;
             }
@@ -110,14 +116,23 @@ public class Plane extends MovingImage{
         this.firing = firing;
     }
     public void draw(PApplet g) {
-        float angle = (float)Math.atan2(yVel, xVel) - (float)Math.atan2(yVelBefore, xVelBefore);
-        g.pushStyle();
-        g.imageMode(g.CENTER);
-        rotate(angle);
-        g.pushMatrix();
-        g.translate((float)width/2, (float)height/2);
-        super.draw(g);
-        g.popMatrix();
-        g.popStyle();
+        if (explosionTimer > 0) {
+            explosionTimer--;
+            g.pushStyle();
+            g.tint(255, explosionTimer*255f/60);
+            g.image(explosion, (float)x, (float)y, (float)width, (float)height);
+            g.popStyle();
+        }
+        if (!isDead()) {
+            float angle = (float)Math.atan2(yVel, xVel) - (float)Math.atan2(yVelBefore, xVelBefore);
+            g.pushStyle();
+            g.imageMode(g.CENTER);
+            rotate(angle);
+            g.pushMatrix();
+            g.translate((float)width/2, (float)height/2);
+            super.draw(g);
+            g.popMatrix();
+            g.popStyle();
+        }
     }
 }
