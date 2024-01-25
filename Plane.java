@@ -44,7 +44,7 @@ public class Plane extends MovingImage{
         else if (x < 0)
             moveToLocation(g.width - width, y);
         for (Rectangle2D.Double image : images)
-            if(collide(image) && image instanceof Powerup){
+            if(collide(image) && image instanceof PowerUp){
                 image.setRect(-500, -500, 20, 20);
             }
         return temp;
@@ -93,7 +93,7 @@ public class Plane extends MovingImage{
                 crash();
                 return true;
             }
-            else if (image instanceof Powerup && hitbox.intersects(image)){
+            else if (image instanceof PowerUp && hitbox.intersects(image)){
                 
                 setFiring(true);
                 return true;

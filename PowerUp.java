@@ -1,8 +1,8 @@
 import processing.core.PImage;
 
-public class Powerup extends MovingImage{
+public class PowerUp extends MovingImage{
 
-    public Powerup(PImage img, double x, double y, double width, double height) {
+    public PowerUp(PImage img, double x, double y, double width, double height) {
         super(img, x, y, width, height);
         
     }

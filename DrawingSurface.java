@@ -9,7 +9,7 @@ public class DrawingSurface extends PApplet {
     private PImage redPlaneImg, bluePlaneImg, groundImg, powerupImg, bulletImg, explosionImg;
     private Plane bluePlane, redPlane;
     private ArrayList<Rectangle2D.Double> objects;
-    private Powerup pu1, pu2;
+    private PowerUp pu1, pu2;
     private Ground ground;
     private Sky sky;
     private int victoryTimer, scoreRed, scoreBlue, blueShots, redShots;
@@ -33,8 +33,8 @@ public class DrawingSurface extends PApplet {
         objects.add(redPlane);
         objects.add(ground);
         objects.add(sky);
-        pu1 = new Powerup(powerupImg, 30, 200, 30, 55);
-        pu2 = new Powerup(powerupImg, -50, -50, 30, 55);
+        pu1 = new PowerUp(powerupImg, 30, 200, 30, 55);
+        pu2 = new PowerUp(powerupImg, -50, -50, 30, 55);
         objects.add(pu1);
         objects.add(pu2);
         blueShots = 0;
@@ -99,9 +99,9 @@ public class DrawingSurface extends PApplet {
                 objects.add(redPlane);
                 objects.add(ground);
                 objects.add(sky);
-                pu1 = spawnPowerup();
+                pu1 = spawnPowerUp();
                 objects.add(pu1);
-                pu2 = new Powerup(powerupImg, -50, -50, 20, 20);
+                pu2 = new PowerUp(powerupImg, -50, -50, 20, 20);
                 objects.add(pu2);
                 victoryTimer = 0;
                 spawnTimer = 0;
@@ -113,10 +113,10 @@ public class DrawingSurface extends PApplet {
 
         if(spawnTimer > 300){
             if(pu2.x < 0){
-                pu2 = spawnPowerup();
+                pu2 = spawnPowerUp();
                 objects.add(pu2);
             } else if(pu1.x < 0){
-                pu1 = spawnPowerup();
+                pu1 = spawnPowerUp();
                 objects.add(pu1);
             }
             spawnTimer = 0;
@@ -139,7 +139,7 @@ public class DrawingSurface extends PApplet {
             redPlane.setFlying(false);
     }
 
-    public Powerup spawnPowerup(){
+    public PowerUp spawnPowerUp(){
         int x, y;
         int a = (int)(2*Math.random());
         if(a == 0){
@@ -150,6 +150,6 @@ public class DrawingSurface extends PApplet {
         int b = (int)(300*Math.random());
         y = 50 + b;
 
-        return new Powerup(powerupImg, x, y, 30, 55);
+        return new PowerUp(powerupImg, x, y, 30, 55);
     }
 }

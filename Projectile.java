@@ -28,7 +28,7 @@ public class Projectile extends MovingImage{
         else if (x < 0)
             moveToLocation(g.width - width, y);
         for (Rectangle2D.Double object : objects) {
-            if (collide(object) && object != owner && !(object instanceof Projectile) && !(object instanceof Powerup)) {
+            if (collide(object) && object != owner && !(object instanceof Projectile) && !(object instanceof PowerUp)) {
                 if (object instanceof Plane)
                     ((Plane) object).crash();
                 temp.remove(this);
